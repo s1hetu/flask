@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+Create Tag
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{form.hidden_tag()}}
+    {{form.name.label}}
+
+    {% if form.name.errors %}
+    {{form.name}}
+    {% for error in form.name.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{form.name}}
+    {% endif %}
+    {{form.create}}
+</form>
+{% endblock %}

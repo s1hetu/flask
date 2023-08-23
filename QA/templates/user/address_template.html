@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+    {{form.hidden_tag()}}
+    {{form.city.label}}
+    {% if form.city.errors %}
+    lllllllllllll
+    {{ form.city }}
+    {% for error in form.city.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{form.city}}
+    {% endif %}
+    {{form.state.label}}
+    {% if form.state.errors %}
+    {{ form.state }}
+    {% for error in form.state.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{form.state}}
+    {% endif %}
+
+    {{form.submit}}
+
+</form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login Page
+{% endblock %}
+
+{% block content %}
+
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            {{ form.username.label }}
+            {% if form.username.errors %}
+                {{ form.username }}
+                {% for error in form.username.errors %}
+                {{ error }}
+                {% endfor%}
+
+            {% else %}
+                {{ form.username }}
+            {% endif %}
+
+            <br>
+            {{ form.password.label }}
+            {% if form.password.errors %}
+                {{ form.password }}
+                {% for error in form.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% else %}
+                {{ form.password }}
+            {% endif %}
+
+            <br>
+            {{ form.login }}
+
+        </form>
+    </div>
+    <a href="{{url_for('user.signup')}}">Create account </a>
+</div>
+{% endblock %}
