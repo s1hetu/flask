@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} My title {% endblock %}</title>
+</head>
+<body>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
+{% if current_user.is_authenticated %}
+<a href="{{url_for('user.home')}}">Home</a>
+<a href="{{url_for('user.create_tag')}}">Create Tag</a>
+<a href="{{url_for('user.view_tags')}}">View Tag</a>
+<a href = "{{url_for('question.ask_question')}}">Ask question</a>
+<a href="{{url_for('question.view_questions')}}">All questions</a>
+<a href="{{url_for('user.add_address')}}">Add Address</a>
+<a href="{{url_for('user.logout')}}">Logout</a>
+
+{% endif %}
+{% block content %}
+{% endblock %}
+</body>
+</html>
