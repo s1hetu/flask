@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+Questions
+{% endblock %}
+
+{% block content %}
+
+<br>
+<br>
+{% for question in questions.items %}
+<li>
+    {% if current_user == question.user %}
+    <a href="{{url_for('question.update_question', question_id=question.id)}}">{{question.question}}</a><br>
+    {% else %}
+    {{question.question}}
+    {% endif %}
+    Asked on : {{question.asked_date}}<br>
+    Up Votes : {{question.up_vote}}<br>
+    Down Votes : {{question.down_vote}}<br>
+    User : {{question.user.username}}<br>
+    Tags : {{question.tags}}<br>
+    Answers :
+    <br>
+
+    {% for answer in question.answers %}
+    <span style="margin-left: 23px"> {{ loop.index }}. {{answer.answer}}</span>
+    <br>
+    {% endfor %}
+    <br>
+    <a href="{{url_for('question.answer', question_id=question.id)}}">Answer</a>
+
+</li>
+<br>
+{% endfor %}
+{% for page_num in questions.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+
+    {% if page_num %}
+    <a href="{{url_for('question.view_questions', page=page_num)}}">{{page_num}}</a>
+    {% else %}
+
+    {% endif %}
+{% endfor %}
+{% endblock %}

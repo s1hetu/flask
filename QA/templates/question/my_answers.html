@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br>
+{% for answer in answers %}
+{{answer.question.question}}
+<br>
+Answer : <b><i>{{answer.answer}}</i></b>
+<br>
+{{answer.answered_date}}
+<br>
+{% endfor %}
+{% endblock %}

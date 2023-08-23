@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<form method="POST">
+    {{form.hidden_tag()}}
+    {{form.answer.label}}
+    {% if form.answer.errors %}
+    {{form.answer}}
+    {% for error in form.answer.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{form.answer}}
+    {%endif %}
+
+    {{form.post_answer}}
+</form>
+{% endblock %}

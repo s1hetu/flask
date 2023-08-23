@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+My Questions
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+{% for question in questions %}
+{{question.question}}
+{{question.asked_date}}
+{{question.up_vote}}
+{{question.down_vote}}
+{{question.user}}
+<a href = "{{url_for('question.update_question', question_id=question.id)}}">View/Update Question Details</a>
+<br>
+{% endfor %}
+{% endblock %}

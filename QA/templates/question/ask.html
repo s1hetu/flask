@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}
+Ask Question
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<form method="POST">
+    {{form.hidden_tag()}}
+
+    {{ form.question.label }}
+    {% if form.question.errors %}
+    {{form.question}}
+    {% for error in form.question.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{ form.question }}
+    {% endif %}
+
+    {{form.tags.label}}
+    {% if form.tags.errors %}
+    {{form.tags}}
+    {% for error in form.tags.errors %}
+    {{error}}
+    {% endfor %}
+    {% else %}
+    {{form.tags}}
+    {%endif%}
+    <br>
+
+    {{form.post}}
+
+
+</form>
+{% endblock %}
