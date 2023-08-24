@@ -7,12 +7,15 @@ My Questions
 <br>
 <br>
 {% for question in questions %}
-{{question.question}}
-{{question.asked_date}}
-{{question.up_vote}}
-{{question.down_vote}}
-{{question.user}}
+Question : {{question.question}}<br>
+Date : {{question.asked_date}}<br>
+Up Votes : {{question.up_vote}}<br>
+Down Votes : {{question.down_vote}}<br>
+Username: {{question.user_id}}<br>
+
+Email : {{question.email}}<br>
 <a href = "{{url_for('question.update_question', question_id=question.id)}}">View/Update Question Details</a>
+<br>
 <br>
 {% endfor %}
 {% endblock %}

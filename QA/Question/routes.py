@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 
 from .models import Question, Answer
 from QA import db
+from QA.User.models import User
 from .forms import AskQuestionForm, AnswerForm
 from ..User.models import Tag
 
@@ -35,12 +36,25 @@ def ask_question():
 def view_questions():
     page = request.args.get('page', 1, type=int)
 
-    return render_template('question/view_questions.html', questions=Question.query.order_by(Question.asked_date.desc()).paginate(page=page, per_page=3))
+    return render_template('question/view_questions.html',
+                           questions=Question.query.order_by(Question.asked_date.desc()).paginate(page=page,
+                                                                                                  per_page=3))
 
 
 @question_blueprint.route('/my_questions', methods=['GET', 'POST'])
 def my_questions():
-    return render_template('question/my_questions.html', questions=current_user.questions_asked)
+    # q1 = Question.query.filter_by(user=current_user).with_entities(Question.question, Question.asked_date,
+    #                                                                Question.up_vote, Question.id, Question.user_id)
+
+    """Problem with q1 is it will load data from one model only"""
+    q2 = db.session.query(Question.id, Question.question, User.username, User.email).join(User,
+                                                                                          User.id == Question.user_id).filter(
+        Question.user == current_user)
+    """This will only load columns given in query() and apply join on user_id from User, Question where user=current user."""
+
+    # q3 = current_user.questions_asked
+    """Problem with q3 is it will load all data from both tables"""
+    return render_template('question/my_questions.html', questions=q2)
 
 
 @question_blueprint.route('/update_question/<int:question_id>', methods=['GET', 'POST'])
@@ -67,7 +81,9 @@ class MyAnswers(View):
     methods = ['GET']
 
     def dispatch_request(self):
-        return render_template('question/my_answers.html', answers=Answer.query.filter_by(user=current_user))
+        ans = db.session.query(Answer.answer, Question.question, Answer.answered_date).join(Question, Question.id == Answer.question_id).filter(Question.user==current_user)
+        # ans2 = current_user.answers
+        return render_template('question/my_answers.html', answers=ans)
 
 
 question_blueprint.add_url_rule('/my_answers', view_func=MyAnswers.as_view('my_answers'))
@@ -79,7 +95,6 @@ class PostAnswer(View):
     def dispatch_request(self, question_id):
         form = AnswerForm()
         if form.validate_on_submit():
-
             answer = Answer(answer=form.answer.data, user=current_user,
                             question=Question.query.filter_by(id=question_id).first())
             db.session.add(answer)
